@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
-
-const jwtPassword = 'secret123';
+const jwtPassword = require("../utils/jwtPassword");
 
 // Middleware for handling auth
 function adminMiddleware(req, res, next) {

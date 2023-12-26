@@ -1,21 +1,10 @@
 const { Router } = require("express");
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const adminMiddleware = require("../middleware/admin");
 const { Admin, Course } = require("../db/index")
+const jwtPassword = require("../utils/jwtPassword")
+const {hashPassword, comparePassword} = require("../utils/hashing")
 const router = Router();
-
-const jwtPassword = 'secret123';
-
-async function hashPassword(password) {
-    const hash = await bcrypt.hash(password, 10);
-    return hash;
-}
-
-async function comparePassword(password, hash) {
-    const result = await bcrypt.compare(password, hash);
-    return result;
-}
 
 // Admin Routes
 router.post('/signup', async (req, res) => {
@@ -87,7 +76,7 @@ router.post('/courses', adminMiddleware, async (req, res) => {
 router.get('/courses', adminMiddleware, async (req, res) => {
     const allCourses = await Course.find({},{_id:0, __v:0});
 
-    res.status(400).json({courses: allCourses});
+    res.status(200).json({courses: allCourses});
 });
 
 module.exports = router;
